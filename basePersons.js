@@ -1,21 +1,23 @@
+
 const payer = [
     {
-        payerName: 'Petya N.V.',
-        payerPhoneNum: '+7 916 123-45-67',
+        payerName: 'Petr V. U.',
+        guestPhoneNum: '+7 916 123-45-67',
+        payerType: 'UR',
+        payerId: 1,
     },
     {
-        payerName: 'Nick N.V.',
+        payerName: 'Alex N. K.',
         payerPhoneNum: '+7 916 123-45-67',
+        payerType: 'UR',
+        payerId: 2,
     },
     {
-        payerName: 'Vasya N.V.',
+        payerName: 'Max N. O.',
         payerPhoneNum: '+7 916 123-45-67',
+        payerType: 'FIZ',
+        payerId: 3,
     }
-]
-
-const guest = [
-    guestName: 'Petr',
-    payerType: 'UR',
 ]
 
 export { payer, guest };

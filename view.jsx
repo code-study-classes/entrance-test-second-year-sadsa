@@ -104,6 +104,32 @@ class Component extends React.Component {
                        {freeList ? this.freeNums() : null} 
                     </div>
                 </div>
+                <div className="row">
+                    <h2 className="h2">Бронирование номера</h2>
+                </div>
+                <div className="row">
+                    <div className="col-4">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="bg-danger bg-gradient input-group-text" id="basic-addon1"><i class="bi bi-person-add"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Ваше имя" aria-label="Username" aria-describedby="basic-addon1" />
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="bg-primary bg-gradient input-group-text" id="basic-addon1"><i class="bi bi-phone"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="+7ххх-ххх-хх-хх" aria-label="Phonenumber" aria-describedby="basic-addon1" />
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="bg-success bg-gradient input-group-text" id="basic-addon1"><i class="bi bi-file-text"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Вид плательщика" aria-label="Typeofpayer" aria-describedby="basic-addon1" />
+                        </div>
+                        <button type="button" class="btn btn-outline-success">Начать бронь</button>
+                    </div>
+                </div>
 
             </>
         );
