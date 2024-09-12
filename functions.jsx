@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { Collapse } from 'react-bootstrap';
+import { Collapse, Modal, ListGroup } from 'react-bootstrap';
 
 const HotelsCards = ({hotelName, region, numbers}) => {
     const [showNumbers, setShowNumbers] = useState(false);
@@ -64,4 +64,38 @@ const ForLi = ({freeHotel, fn}) => {
     );
 }
 
-export { HotelsCards, ForLi };
+const ModalForPayer = ({ name, phone, type }) => {
+    const [open, setOpen] = useState(false);
+    const handleClose = () => setOpen(false);
+    const handleShow = () => setOpen(true);
+    return (
+        <>
+            <Button variant="btn btn-outline-success" onClick={handleShow}>
+                Начать бронь
+            </Button>
+
+          <Modal className='bg-gray' show={open} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Проверка</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <ListGroup>
+                    <ListGroup.Item>{name}</ListGroup.Item>
+                    <ListGroup.Item>{phone}</ListGroup.Item>
+                    <ListGroup.Item>{type}</ListGroup.Item>
+                </ListGroup>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Отмена
+              </Button>
+              <Button variant="primary" onClick={handleClose}>
+                Подтвердить
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
+      );
+}
+
+export { HotelsCards, ForLi, ModalForPayer };

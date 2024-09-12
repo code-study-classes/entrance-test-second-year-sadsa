@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import hotels from './baseHotels';
-import { HotelsCards, ForLi } from './functions';
+import { HotelsCards, ForLi, ModalForPayer } from './functions';
+import { payer } from './basePersons';
 
 class Component extends React.Component {
     constructor(props) {
@@ -10,6 +11,11 @@ class Component extends React.Component {
             hotels,
             inputIdHotel: '',
             inpitIdNumber: '',
+            loginUser: {
+                loginName: '',
+                loginPhoneNumber: '',
+                payerType: '',
+            },
             freeList: false,
         };
     }
@@ -61,6 +67,12 @@ class Component extends React.Component {
         this.setState({ freeList:!this.state.freeList });
     }
 
+    onSubmit = (e) => {
+        e.preventDefault();
+        const { loginName, loginPhoneNumber, payerType } = this.state.loginUser;
+         
+    }
+
     renderHotels() {
         const { hotels } = this.state;
         return hotels.map((hotel) => (
@@ -73,13 +85,13 @@ class Component extends React.Component {
     }
 
     render() {
-        const { hotels, freeList, inputNameHotel, inputNumber } = this.state;
+        const { hotels, freeList, inputNameHotel, inputNumber, loginUser } = this.state;
+        const { loginName, loginPhoneNumber, payerType } = loginUser;
         return (
             <>  
                 <div className="pt-3">
                     <h2 className="col-12 h2">Отели</h2>
                 </div>
-
                 <div className="row hotels mb-5 mt-3">
                     {this.renderHotels()}
                 </div>
@@ -108,29 +120,29 @@ class Component extends React.Component {
                     <h2 className="h2">Бронирование номера</h2>
                 </div>
                 <div className="row">
-                    <div className="col-4">
+                    <form className="col-4">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="bg-danger bg-gradient input-group-text" id="basic-addon1"><i class="bi bi-person-add"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Ваше имя" aria-label="Username" aria-describedby="basic-addon1" />
+                            <input value={loginName} onChange={(e) => this.setState({ loginUser: { loginName: e.target.value, loginPhoneNumber, payerType } })} type="text" class="form-control" placeholder="Ваше имя" aria-label="Username" aria-describedby="basic-addon1" />
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="bg-primary bg-gradient input-group-text" id="basic-addon1"><i class="bi bi-phone"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="+7ххх-ххх-хх-хх" aria-label="Phonenumber" aria-describedby="basic-addon1" />
+                            <input value={loginPhoneNumber} onChange={(e) => this.setState({ loginUser: { loginName, loginPhoneNumber: e.target.value, payerType } })} type="text" class="form-control" placeholder="+7ххх-ххх-хх-хх" aria-label="Phonenumber" aria-describedby="basic-addon1" />
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="bg-success bg-gradient input-group-text" id="basic-addon1"><i class="bi bi-file-text"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Вид плательщика" aria-label="Typeofpayer" aria-describedby="basic-addon1" />
+                            <input value={payerType} onChange={(e) => this.setState({ loginUser: { loginName, loginPhoneNumber, payerType: e.target.value } })} type="text" class="form-control" placeholder="Вид плательщика" aria-label="Typeofpayer" aria-describedby="basic-addon1" />
                         </div>
-                        <button type="button" class="btn btn-outline-success">Начать бронь</button>
-                    </div>
+                        {console.log(loginUser)}
+                        {<ModalForPayer name={loginName} phone={loginPhoneNumber} type={payerType} fn={this.onSubmit} />}
+                    </form>
                 </div>
-
             </>
         );
     }

@@ -2,7 +2,7 @@
 const payer = [
     {
         payerName: 'Petr V. U.',
-        guestPhoneNum: '+7 916 123-45-67',
+        payerPhoneNum: '+7 916 123-45-67',
         payerType: 'UR',
         payerId: 1,
     },
@@ -20,4 +20,4 @@ const payer = [
     }
 ]
 
-export { payer, guest };
+export { payer };
