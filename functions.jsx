@@ -74,22 +74,28 @@ const ModalForPayer = ({ name, phone, type }) => {
                 Начать бронь
             </Button>
 
-          <Modal className='bg-gray' show={open} onHide={handleClose}>
-            <Modal.Header closeButton>
+          <Modal show={open} onHide={handleClose}>
+            <Modal.Header className='bg-light' closeButton>
               <Modal.Title>Проверка</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <ListGroup>
-                    <ListGroup.Item>{name}</ListGroup.Item>
-                    <ListGroup.Item>{phone}</ListGroup.Item>
-                    <ListGroup.Item>{type}</ListGroup.Item>
+                    <ListGroup.Item className='d-flex'>Name: {name}
+                        <span class="bg-primary bg-gradient input-group-text" id="basic-addon1"><i class="bi bi-person-add"></i></span>
+                    </ListGroup.Item>
+                    <ListGroup.Item>Phone: {phone}
+                        <span class="bg-primary bg-gradient input-group-text" id="basic-addon1"><i class="bi bi-phone"></i></span>
+                    </ListGroup.Item>
+                    <ListGroup.Item>Type: {type}
+                        <span class="bg-primary bg-gradient input-group-text" id="basic-addon1"><i class="bi bi-file-text"></i></span>
+                    </ListGroup.Item>
                 </ListGroup>
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
+            <Modal.Footer className='bg-light justify-content-around'>
+              <Button variant="outline-danger" onClick={handleClose}>
                 Отмена
               </Button>
-              <Button variant="primary" onClick={handleClose}>
+              <Button variant="outline-success" onClick={handleClose}>
                 Подтвердить
               </Button>
             </Modal.Footer>
