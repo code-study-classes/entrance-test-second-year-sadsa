@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import hotels from './baseHotels';
-import { HotelsCards, ForLi, ModalForPayer } from './functions';
-import { payer } from './basePersons';
+import { HotelsCards, ForLi, ModalForPayer, ViewPayers, Toaster } from './functions';
+import { payers } from './basePersons';
 
 class Component extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             hotels,
+            payers,
             inputIdHotel: '',
             inpitIdNumber: '',
             loginUser: {
@@ -17,6 +18,7 @@ class Component extends React.Component {
                 payerType: '',
             },
             freeList: false,
+            activePayer: '',
         };
     }
 
@@ -57,9 +59,10 @@ class Component extends React.Component {
     };
 
     freeNums() {
+        const { activePayer } = this.state;
         const free = this.freeNumbersSearching();        
         return free.map((num) => (
-            <ForLi freeHotel={num} fn={this.changeStatus} />
+            <ForLi freeHotel={num} fn={this.changeStatus} actives={activePayer} />
         ));
     }
 
@@ -73,13 +76,46 @@ class Component extends React.Component {
          
     }
 
+    addPayer = () => {
+        const { payers, loginUser } = this.state;
+        const { loginName, loginPhoneNumber, payerType } = loginUser;
+        const newPayer = {
+            payerId: payers.length + 1,
+            payerName: loginName,
+            payerPhoneNum: loginPhoneNumber,
+            payerType,
+        };
+        this.setState((prevState) => ({
+            payers: [...prevState.payers, newPayer],
+            loginUser: {
+                loginName: '',
+                loginPhoneNumber: '',
+                payerType: '',
+            },
+            activePayer: newPayer
+        }));        
+    }
+
+    setActivity = (active) => {
+        this.setState({ activePayer: active })
+        console.log(this.state.activePayer);
+        
+    }
+
+    renderPayers() {
+        const { payers } = this.state;
+        return (
+            <div className="row d-flex justify-content-center">
+                {payers.map((person) => (<ViewPayers key={person.payerId} payer={person} fn={this.setActivity} />))}
+            </div>
+        )
+    }
+
     renderHotels() {
         const { hotels } = this.state;
         return hotels.map((hotel) => (
             <div className="col">
-                <div className="row">
-                    <HotelsCards key={hotel.hotelId} hotelName={hotel.hotelName} region={hotel.region} numbers={hotel.hotelNumbers} />
-                </div>
+                <HotelsCards key={hotel.hotelId} hotelName={hotel.hotelName} region={hotel.region} numbers={hotel.hotelNumbers} />
             </div>
         ));
     }
@@ -125,23 +161,23 @@ class Component extends React.Component {
                             <div class="input-group-prepend">
                                 <span class="bg-danger bg-gradient input-group-text" id="basic-addon1"><i class="bi bi-person-add"></i></span>
                             </div>
-                            <input value={loginName} onChange={(e) => this.setState({ loginUser: { loginName: e.target.value, loginPhoneNumber, payerType } })} type="text" class="form-control" placeholder="Ваше имя" aria-label="Username" aria-describedby="basic-addon1" />
+                            <input value={loginName} onChange={(e) => this.setState({ loginUser: { loginName: e.target.value, loginPhoneNumber, payerType } })} type="text" class="form-control" placeholder="ФИО" aria-label="Username" aria-describedby="basic-addon1" required />
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="bg-primary bg-gradient input-group-text" id="basic-addon1"><i class="bi bi-phone"></i></span>
                             </div>
-                            <input value={loginPhoneNumber} onChange={(e) => this.setState({ loginUser: { loginName, loginPhoneNumber: e.target.value, payerType } })} type="text" class="form-control" placeholder="+7ххх-ххх-хх-хх" aria-label="Phonenumber" aria-describedby="basic-addon1" />
+                            <input value={loginPhoneNumber} onChange={(e) => this.setState({ loginUser: { loginName, loginPhoneNumber: e.target.value, payerType } })} type="text" class="form-control" placeholder="+7ххх-ххх-хх-хх" aria-label="Phonenumber" aria-describedby="basic-addon1" required />
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="bg-success bg-gradient input-group-text" id="basic-addon1"><i class="bi bi-file-text"></i></span>
                             </div>
-                            <input value={payerType} onChange={(e) => this.setState({ loginUser: { loginName, loginPhoneNumber, payerType: e.target.value } })} type="text" class="form-control" placeholder="Вид плательщика" aria-label="Typeofpayer" aria-describedby="basic-addon1" />
+                            <input value={payerType} onChange={(e) => this.setState({ loginUser: { loginName, loginPhoneNumber, payerType: e.target.value } })} type="text" class="form-control" placeholder="Вид плательщика" aria-label="Typeofpayer" aria-describedby="basic-addon1" required />
                         </div>
-                        {console.log(loginUser)}
-                        {<ModalForPayer name={loginName} phone={loginPhoneNumber} type={payerType} fn={this.onSubmit} />}
+                        {<ModalForPayer name={loginName} phone={loginPhoneNumber} type={payerType} fn={this.addPayer} />}
                     </form>
+                    {this.renderPayers()}
                 </div>
             </>
         );

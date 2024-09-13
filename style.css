@@ -1,5 +1,13 @@
 body {
-    height: 1000px;
+    height: 1200px;
     margin: 0;
     padding: 0;
+}
+
+.btn-payer {
+    width: 100px; 
+    height: 50px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
