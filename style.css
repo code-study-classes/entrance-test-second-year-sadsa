@@ -11,3 +11,32 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+.show-info {
+    display: grid;
+    width: 286px;
+    height: 80px;
+    color: white;
+    opacity: 0;
+    border-radius: 7px;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    transition: opacity 0.5s;
+}
+
+.hotel-card {
+    position: relative;
+}
+
+.numbers-list {
+    border-radius: 10px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 1000; 
+    background-color: white; 
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}

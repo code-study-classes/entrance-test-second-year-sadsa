@@ -18,11 +18,13 @@ const HotelsCards = ({hotelName, region, numbers}) => {
             Регион: {region}
             <br />
             {showNumbers && (
-                        <ul className="list-group mt-2" >
-                            {numbers.map((number) => (
-                                <li key={number.numberId} className='list-group-item mb-2'>Номер {number.hotelNumber} - {number.status}</li>
-                            ))}
-                        </ul>
+                        <div className="numbers-list">
+                            <ul className="list-group mt-2" >
+                                {numbers.map((number) => (
+                                    <li key={number.numberId} className='list-group-item mb-2'>Номер {number.hotelNumber} - {number.status}</li>
+                                ))}
+                            </ul>
+                        </div>
                     )}
           </Card.Text>
           <Button variant="primary" onClick={toggleShowNumbers} >{showNumbers ? 'Скрыть номера' : 'Показать номера'}</Button>
@@ -31,35 +33,23 @@ const HotelsCards = ({hotelName, region, numbers}) => {
     );
 }
 
-const Toaster = ({ txt, bg }) =>{
-    const [show, setShow] = useState(false);
 
-    setShow(true);
+function showMessage(txt, state='bad') {
+    const divShow = document.querySelector('.show-info');
+    divShow.textContent = txt;
+    divShow.style.opacity = '1';
+    state === 'good' ? divShow.classList.add('bg-success', 'bg-gradient') : divShow.classList.add('bg-danger', 'bg-gradient');
+
     setTimeout(() => {
-        setShow(false);
-    }, 3000);
-    
+        divShow.style.opacity = '0';
+        state === 'good' ? divShow.classList.remove('bg-success', 'bg-gradient') : divShow.classList.remove('bg-danger', 'bg-gradient');
+    }, 2000);
+}
 
-    return (
-        <div>
-        <Toast show={show} onClose={() => setShow(false)}>
-            <Toast.Body className={bg}>{txt}</Toast.Body>
-        </Toast>
-        </div>
-    );
-  }
-
-const ForLi = ({freeHotel, fn, actives}) => {
-
-    const notChoozing = () => <Toaster txt={'Выберите плательщика'} bg={'bg-danger'} />
-    
-        const choozing = () => {
-            <Toaster txt={'Успешно'} bg={'bg-success'} />
-            fn(hotelName, number.hotelNumber)
-        }
-    
+const ForLi = ({freeHotel, fnChng, fnAddNum, actives}) => {
     const { hotelName } = freeHotel;
     const [open, setOpen] = useState(false);
+    
     return (
         <div className='col bg-success bg-gradient text-white list-group d-flex justify-content-between'>
             <li className='list-group-item'>{freeHotel.hotelName}</li>
@@ -74,12 +64,16 @@ const ForLi = ({freeHotel, fn, actives}) => {
                     {open ? 'Скрыть номера' : 'Показать номера'}
                 </Button>
                 <Collapse in={open}>
-                    <div id="example-collapse-text">
+                    <div id="collapse">
                         <ul className='list-group mt-2'>
                             {freeHotel.hotelNumbers.map((number) => (
                                 <li key={number.numberId} className='list-group-item mb-2 d-flex justify-content-between align-items-center'>
                                     Номер {number.hotelNumber}
-                                    <button onClick={actives === '' ? notChoozing : choozing} className="mr-3 btn btn-outline-success">Бронь</button>
+                                    {actives === '' ? (<button onClick={() => showMessage('Выберите плтельщика')} className="mr-3 btn btn-outline-success">Бронь</button>) : (<button onClick={() => {
+                                        fnChng(hotelName, number.hotelNumber)
+                                        fnAddNum(actives, number);
+                                        showMessage('Бронирование успешно!', 'good');
+                                    }} className="mr-3 btn btn-outline-success">Бронь</button>)}
                                 </li>
                             ))}
                         </ul>
@@ -167,4 +161,4 @@ const ViewPayers = ({ payer, fn }) => {
     );
 }
 
-export { HotelsCards, ForLi, ModalForPayer, ViewPayers, Toaster };
+export { HotelsCards, ForLi, ModalForPayer, ViewPayers };
